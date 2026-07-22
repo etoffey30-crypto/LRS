@@ -18,21 +18,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: Enable pnpm via Corepack
+      - name: Install dependencies and build app
         run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-
-      - name: Verify pnpm installation
-        run: |
+          npm install -g pnpm@latest
+          export PATH="$(npm bin -g):$PATH"
           pnpm --version
-          which pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build app
-        run: pnpm exec vite build
+          pnpm install --frozen-lockfile
+          pnpm exec vite build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
